@@ -20,7 +20,7 @@ class UserFilesController < ApplicationController
     item = UserFile.find_by(id: params[:id])
     if item.nil?
       return render file: "#{Rails.root}/public/404.html", status: 404
-    elsif item && current_user.user_files.exists?(item.id)
+    elsif item && current_user.user_files.where(id: item.id)
       item.destroy
       flash[:success] = "File Deleted"
       redirect_to current_user
@@ -33,7 +33,7 @@ class UserFilesController < ApplicationController
     item = UserFile.find_by(id: params[:id])
     if item.nil?
       return render file: "#{Rails.root}/public/404.html", status: 404
-    elsif item && current_user.user_files.exists?(params[:id])
+    elsif item && current_user.user_files.where(id: params[:id])
       path = Rails.root.join("public_uploads", params[:id], item.filename.to_s)
       send_file path
     else

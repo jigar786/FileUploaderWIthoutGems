@@ -3,13 +3,13 @@ class SharedFilesController < ApplicationController
 
   def create
     if @user_file = SharedFile.find_by(:user_file_id => params[:id])
-      @link = "localhost:3000/shared_file/#{@user_file.user_file_id}/#{@user_file.filename}"
+      @link = "#{ENV["SERVER"]}/shared_file/#{@user_file.user_file_id}/#{@user_file.filename}"
       render "shared_files/create"
     else
       shared_file = current_user.shared_files.build
       shared_file.filename = UserFile.find_by(id: params[:id]).filename
       shared_file.user_file = UserFile.find_by(id: params[:id])
-      @link = "localhost:3000/shared_file/#{shared_file.user_file_id}/#{shared_file.filename}"
+      @link = "#{ENV["SERVER"]}/shared_file/#{shared_file.user_file_id}/#{shared_file.filename}"
       shared_file.save
     end
   end
@@ -30,7 +30,7 @@ class SharedFilesController < ApplicationController
   end
 
   def destroy
-    if current_user.user_files.exists?(params[:id])
+    if current_user.user_files.where(id: params[:id])
       SharedFile.find_by(:user_file_id => params[:id]).destroy
       flash[:success] = "File successfully unshared"
       redirect_to current_user
