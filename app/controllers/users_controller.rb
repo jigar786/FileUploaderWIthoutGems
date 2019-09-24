@@ -2,10 +2,11 @@ class UsersController < ApplicationController
   before_action :logged_in_user?, only: [:show]
 
   def home
-    @user = User.new
-  end
-
-  def index
+    if logged_in?
+      redirect_to current_user
+    else
+      @user = User.new
+    end
   end
 
   def create
@@ -21,6 +22,14 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    if @user.nil?
+      return render file: "#{Rails.root}/public/404.html", status: 404
+    elsif @user.id == current_user.id
+      @files = @user.user_files
+    else
+      return render file: "#{Rails.root}/public/404.html", status: 404
+    end
+
     # debugger
   end
 

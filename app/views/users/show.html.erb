@@ -1,1 +1,9 @@
-<h1>In users show</h1>
+<div class="row">
+  <div class="col-6">
+    <%= render 'shared/user_file_form'%>
+  </div>
+  <div class="col-6 mt-5">
+    <h3>My File:  <%= pluralize(@user.user_files.count , "file") %> </h3>
+    <%= render 'shared/files'%>
+  </div>
+</div>

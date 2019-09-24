@@ -1,0 +1,9 @@
+<%= form_for(:user_files , url: user_files_path)  do |f| %>
+  <div class="mt-5">
+    <%= f.text_area :name,:required => true, placeholder: "Compose new file....." %>
+  </div>
+  <span class="image d-block">
+    <%= f.file_field :filename , :required =>  true %>
+  </span>
+  <%= f.submit "Post", class: "btn btn-primary mt-2" %>
+<% end %>
