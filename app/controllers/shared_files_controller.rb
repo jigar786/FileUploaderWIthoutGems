@@ -3,13 +3,13 @@ class SharedFilesController < ApplicationController
 
   def create
     if @user_file = SharedFile.find_by(:user_file_id => params[:id])
-      @link = "#{ENV["SERVER"]}/shared_file/#{@user_file.user_file_id}/#{@user_file.filename}"
+      @link = "#{ENV["SHARED_HOST"]}/shared_file/#{@user_file.user_file_id}/#{@user_file.filename}"
       render "shared_files/create"
     else
       shared_file = current_user.shared_files.build
       shared_file.filename = UserFile.find_by(id: params[:id]).filename
       shared_file.user_file = UserFile.find_by(id: params[:id])
-      @link = "#{ENV["SERVER"]}/shared_file/#{shared_file.user_file_id}/#{shared_file.filename}"
+      @link = "#{ENV["SHARED_HOST"]}/shared_file/#{shared_file.user_file_id}/#{shared_file.filename}"
       shared_file.save
     end
   end

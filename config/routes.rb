@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   post "shared_files/:id" => "shared_files#create", as: "shared_file"
   get "shared_file/:id/:filename" => "shared_files#show", as: "downloaded_file"
   delete "unshared_file/:id" => "shared_files#destroy", as: "unshared_file"
-  resources :shared_files, only: [:show]
+
   resources :users, only: [:create, :show, :home]
   resources :user_files, only: [:create, :destroy]
 end
